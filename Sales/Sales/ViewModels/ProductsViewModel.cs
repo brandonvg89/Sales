@@ -33,9 +33,24 @@
 
         public ProductsViewModel()
         {
+            instance = this;
             this.apiService = new ApiService();
             this.LoadProducts();
         }
+
+        #region Singleton
+        private static ProductsViewModel instance;
+
+        public static ProductsViewModel GetInstance()
+        {
+            if (instance == null)
+            {
+                return new ProductsViewModel();
+            }
+
+            return instance;
+        }
+        #endregion
 
         private async void LoadProducts()
         {
@@ -50,7 +65,9 @@
             }
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
-            var response = await this.apiService.GetList<Product>(url, "/api", "/Products");
+            var prefix = Application.Current.Resources["UrlPrefix"].ToString();
+            var controller = Application.Current.Resources["UrlProductsController"].ToString();
+            var response = await this.apiService.GetList<Product>(url, prefix, controller);
 
             if (!response.IsSuccess)
             {

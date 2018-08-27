@@ -5,6 +5,9 @@
              x:Class="Sales.Views.ProductsPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="{i18n:Translate Products}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="ic_action_add_circle" Command="{Binding AddProductCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Products}"
@@ -20,17 +23,25 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="2*" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
+                                <Image
+                                    Grid.Column="0"                                    
+                                    Source="{Binding ImageFullPath}"
+                                    WidthRequest="100">                                    
+                                </Image>
                                 <Label
                                     FontAttributes="Bold"
-                                    Grid.Column="0"
-                                    Text="{Binding Description}">
+                                    Grid.Column="1"
+                                    Text="{Binding Description}"
+                                    VerticalOptions="Center">
                                 </Label>
                                 <Label
-                                    Grid.Column="1"
-                                    Text="{Binding Price,StringFormat='{0:C2}'}">
+                                    Grid.Column="2"
+                                    Text="{Binding Price,StringFormat='{0:C2}'}"
+                                    VerticalOptions="Center">
                                     
                                 </Label>
                             </Grid>
