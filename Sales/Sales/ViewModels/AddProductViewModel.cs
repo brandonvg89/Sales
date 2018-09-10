@@ -1,10 +1,10 @@
 ﻿namespace Sales.ViewModels
 {
-    using System.Collections.ObjectModel;
     using System.Windows.Input;
+    using Common.Models;
     using GalaSoft.MvvmLight.Command;
     using Helpers;
-    using Sales.Common.Models;
+    using Plugin.Media.Abstractions;
     using Services;
     using Xamarin.Forms;
 
@@ -16,6 +16,8 @@
         //private ObservableCollection<Product> Products;
         private bool isRunning;
         private bool isEnabled;
+        private ImageSource imageSource;
+        private MediaFile file;
         #endregion
 
         #region Properties
@@ -41,6 +43,15 @@
                 this.SetValue(ref this.isEnabled, value);
             }
         }
+
+        public ImageSource ImageSource
+        {
+            get { return this.imageSource; }
+            set
+            {
+                this.SetValue(ref this.imageSource, value);
+            }
+        }
         #endregion
 
         #region Constructors
@@ -48,14 +59,54 @@
         {
             this.apiService = new ApiService();
             this.IsEnabled = true;
+            this.imageSource = "noproduct";
         }
         #endregion
-
-        #region Methods
-
-        #endregion
-
+        
         #region Commands
+        public ICommand ChangeImageCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeImage);
+            }
+        }
+
+        private async void ChangeImage()
+        {
+            await Plugin.Media.CrossMedia.Current.Initialize();
+            var source = await Application.Current.MainPage.DisplayActionSheet(
+                Languages.ImageSource,
+                Languages.Cancel,
+                null,
+                Languages.FromGallery,
+                Languages.NewPicture);
+            if (source == Languages.Cancel)
+            {
+                this.file = null;
+                return;
+            }
+            if (source == Languages.NewPicture)
+            {
+                this.file = await Plugin.Media.CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+                    });
+            }
+            else
+            {
+                this.file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync();
+            }
+            if (this.file != null)
+            {
+                this.ImageSource = ImageSource.FromStream(() =>
+                { var stream = file.GetStream(); return stream; });
+            }
+        }
+
         public ICommand SaveCommand
         {
             get
@@ -107,12 +158,21 @@
                 return;
             }
 
-            var product = new Product
-            {
+            byte[] imageArray = null;
+            if (this.file != null) { imageArray = FilesHelper.ReadFully(this.file.GetStream()); }
+            var product = new Product{
                 Description = this.Description,
                 Price = price,
                 Remarks = this.Remarks,
+                ImageArray = imageArray,
             };
+
+            //var product = new Product
+            //{
+            //    Description = this.Description,
+            //    Price = price,
+            //    Remarks = this.Remarks,
+            //};
 
 
             var url = Application.Current.Resources["UrlAPI"].ToString();
@@ -124,13 +184,16 @@
             {
                 this.isEnabled = true;
                 this.isRunning = false;
-                await Application.Current.MainPage.DisplayAlert(Languages.Error, response.Message, Languages.Accept);
+                await Application.Current.MainPage.DisplayAlert(
+                    Languages.Error,
+                    response.Message, 
+                    Languages.Accept);
                 return;
             }
             var newProduct = (Product)response.Result;
-            var viewModel = ProductsViewModel.GetInstance();
-            viewModel.Products.Add(newProduct);
-
+            var productsViewModel = ProductsViewModel.GetInstance();
+            productsViewModel.MyProducts.Add(newProduct);
+            productsViewModel.RefresList();
 
             this.isEnabled = true;
             this.isRunning = false;

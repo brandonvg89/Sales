@@ -132,4 +132,64 @@
   <data name="Products" xml:space="preserve">
     <value>Productos</value>
   </data>
+  <data name="ImageSource" xml:space="preserve">
+    <value>¿De dónde vas a tomar la foto?</value>
+  </data>
+  <data name="FromGallery" xml:space="preserve">
+    <value>De la galería</value>
+  </data>
+  <data name="NewPicture" xml:space="preserve">
+    <value>Tomarunanuevaimagen</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>¡Eliminar!</value>
+  </data>
+  <data name="DeleteConfirmation" xml:space="preserve">
+    <value>Está seguro de eliminar esto?</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>¡Sí!</value>
+  </data>
+  <data name="No" xml:space="preserve">
+    <value>No.</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>¡Confirmar!</value>
+  </data>
+  <data name="AddProduct" xml:space="preserve">
+    <value>Agregar producto</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Descripción</value>
+  </data>
+  <data name="DescriptionPlaceholder" xml:space="preserve">
+    <value>¡Ingrese la descripción del producto...!</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="PricePlaceholder" xml:space="preserve">
+    <value>Ingrese precio del producto</value>
+  </data>
+  <data name="Remarks" xml:space="preserve">
+    <value>Observaciones</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Guardar</value>
+  </data>
+  <data name="ChangeImage" xml:space="preserve">
+    <value>Toca la imagen para cambiarla.</value>
+  </data>
+  <data name="DescriptionError" xml:space="preserve">
+    <value>Debe escribir una descripción</value>
+  </data>
+  <data name="PriceError" xml:space="preserve">
+    <value>Debe ingresar un precio mayor que cero.</value>
+  </data>
 </root>

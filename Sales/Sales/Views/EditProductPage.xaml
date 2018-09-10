@@ -2,19 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:i18n="clr-namespace:Sales.Helpers"
-             x:Class="Sales.Views.AddProductPage"
+             x:Class="Sales.Views.EditProductPage"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="{i18n:Translate AddProduct}">
+             Title="{i18n:Translate EditProduct}">
     <ContentPage.Content>
         <ScrollView
-            BindingContext="{Binding AddProduct}">
+            BindingContext="{Binding EditProduct}">
             <StackLayout
             Padding="5">
                 <Image
                     Source="{Binding ImageSource}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
-                    </Image.GestureRecognizers> 
+                    </Image.GestureRecognizers>
                 </Image>
                 <Label 
                     FontSize="Small"
@@ -79,6 +79,6 @@
                     TextColor="White">
                 </Button>
             </StackLayout>
-        </ScrollView>        
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Windows.Input;
     using Common.Models;
     using GalaSoft.MvvmLight.Command;
@@ -12,11 +13,17 @@
 
     public class ProductsViewModel : BaseViewModel
     {
+        #region Attributes
         private ApiService apiService;
 
-        private ObservableCollection<Product> products;
+        private ObservableCollection<ProductItemViewModel> products;
 
         private bool isRefreshing;
+        #endregion
+
+        #region Properties
+        public List<Product> MyProducts { get; set; }
+
 
         public bool IsRefreshing
         {
@@ -25,18 +32,22 @@
         }
 
 
-        public ObservableCollection<Product> Products
+
+        public ObservableCollection<ProductItemViewModel> Products
         {
             get { return this.products; }
             set { this.SetValue(ref this.products, value); }
         }
+        #endregion
 
+        #region Constructors
         public ProductsViewModel()
         {
             instance = this;
             this.apiService = new ApiService();
             this.LoadProducts();
-        }
+        } 
+        #endregion
 
         #region Singleton
         private static ProductsViewModel instance;
@@ -52,6 +63,7 @@
         }
         #endregion
 
+        #region Methods
         private async void LoadProducts()
         {
             this.IsRefreshing = true;
@@ -76,18 +88,38 @@
                 return;
             }
 
-            var list = (List<Product>)response.Result;
-            this.Products = new ObservableCollection<Product>(list);
-
+            this.MyProducts = (List<Product>)response.Result;
+            this.RefresList();    
             this.IsRefreshing = false;
         }
 
-        public ICommand RefreshCommand {
+        public void RefresList()
+        {
+            var myListProductItemViewModel = MyProducts.Select(p => new ProductItemViewModel
+            {
+                Description = p.Description,
+                ImageArray = p.ImageArray,
+                ImagePath = p.ImagePath,
+                IsAvailable = p.IsAvailable,
+                Price = p.Price,
+                ProductId = p.ProductId,
+                PublishOn = p.PublishOn,
+                Remarks = p.Remarks
+            });
+            this.Products = new ObservableCollection<ProductItemViewModel>(
+                myListProductItemViewModel.OrderBy(p => p.Description));
+        }
+        #endregion
+
+        #region Commands
+        public ICommand RefreshCommand
+        {
             get
             {
                 return new RelayCommand(LoadProducts);
             }
-        }
+        } 
+        #endregion
     }
 }
 
