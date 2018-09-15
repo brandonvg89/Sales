@@ -81,5 +81,24 @@
             get { return Resource.Confirm; }
         }
 
+        public static string EditProduct
+        {
+            get { return Resource.EditProduct; }
+        }
+
+        public static string IsAvailable
+        {
+            get { return Resource.IsAvailable; }
+        }
+
+        public static string DescriptionError
+        {
+            get { return Resource.DescriptionError; }
+        }
+
+        public static string PriceError
+        {
+            get { return Resource.PriceError; }
+        }
     }
 }

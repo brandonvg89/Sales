@@ -192,4 +192,10 @@
   <data name="PriceError" xml:space="preserve">
     <value>You must enter a price greater than zero.</value>
   </data>
+  <data name="EditProduct" xml:space="preserve">
+    <value>Edit Product</value>
+  </data>
+  <data name="IsAvailable" xml:space="preserve">
+    <value>Is Available!</value>
+  </data>
 </root>

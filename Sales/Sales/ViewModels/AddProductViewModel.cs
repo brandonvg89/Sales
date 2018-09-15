@@ -12,8 +12,6 @@
     {
         #region Attributes
         private ApiService apiService;
-        //private ObservableCollection<Product> products;
-        //private ObservableCollection<Product> Products;
         private bool isRunning;
         private bool isEnabled;
         private ImageSource imageSource;
